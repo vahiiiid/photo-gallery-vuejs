@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- load bootstrap css library -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- load bootstrap js library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <!-- load our custom css file -->
+    <link href="styles.css" rel="stylesheet">
+
+    <!-- load vuejs library -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <!-- load axios package for making api calls easily -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- load bootstrap icon pack -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <meta charset="UTF-8">
+    <title>TourScanner - Gallery Component Interview</title>
+</head>
+<body>
+<!-- vuejs gallery app start here -->
+<div class="carousel-inner py-4" id="gallery">
+    <div class="carousel-item active">
+        <div class="container">
+            <!-- using bootstrap flex components to easily alignment card boxes -->
+            <div class="d-flex flex-row justify-content-between flex-wrap align-items-center">
+
+                <!-- loop over images and make each as a card box -->
+                <div v-if="images" v-for="image in images" class="card">
+                    <img
+                            v-bind:src="image.url"
+                            v-bind:data-image-id="image.image_id"
+                            class="card-img-top"
+                            alt="..."
+                    />
+
+                    <!-- start each image card box -->
+                    <div class="card-body">
+
+                        <!-- image title and bookmark icon if saved -->
+                        <h6 v-bind:class="{saved: isSaved(image.image_id)}" class="card-title">
+                            <i v-if="isSaved(image.image_id)" class="bi bi-bookmark-check"></i>
+                            {{image.title}}
+                        </h6>
+
+                        <!-- button for open removing confirmation modal -->
+                        <button v-if="isSaved(image.image_id)" type="button" class="btn btn-danger"
+                                v-on:click="showRemovingConfirmationModal(image.image_id)">
+                            Unsave
+                        </button>
+
+                        <!-- button for open saving confirmation modal -->
+                        <button type="button" class="btn btn-primary"
+                                v-on:click="showSavingConfirmationModal(image.image_id)" v-else>
+                            Save
+                        </button>
+
+                    </div>
+                    <!-- end each image card box -->
+
+                </div>
+                <!-- end images loop card boxes -->
+
+                <!-- show bootstrap warning alert if there are no images to be shown! -->
+                <div v-else class="alert alert-warning" role="alert">
+                    can't fetch images!
+                </div>
+
+            </div>
+            <!-- end bootstrap flex component -->
+        </div>
+        <!-- end container -->
+
+    </div>
+    <!-- end carousel -->
+
+    <!-- start saving confirmation modal -->
+    <div class="modal fade" id="savingConfirmationModal" tabindex="-1" aria-labelledby="saveModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="savingConfirmationModalLabel">Saving Photo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you want to save this photo?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="saveSelectedPhoto">Yes
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end saving confirmation modal -->
+
+    <!-- start removing confirmation modal -->
+    <div class="modal fade" id="removingConfirmationModal" tabindex="-1" aria-labelledby="removeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removingConfirmationModalLabel">Unsaving Photo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you want to unsave this photo?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="removingSavedPhoto">Yes
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end removing confirmation modal -->
+
+</div>
+<!-- end vuejs gallery app -->
+
+</body>
+<script type="application/javascript" src="app.js"></script>
+</html>
