@@ -46,6 +46,12 @@ const app = Vue.createApp({
     },
     methods: {
         /*
+        * make background image url attribute
+        */
+        getImageUrl: function (url) {
+            return 'background-image: url(' + url + ')';
+        },
+        /*
         * Check if given image id is saved before
         */
         isSaved(imageId) {

@@ -35,12 +35,13 @@
 
                 <!-- loop over images and make each as a card box -->
                 <div v-if="images" v-for="image in images" class="card">
-                    <img
-                            v-bind:src="image.url"
+                    <div
+                            v-bind:style="getImageUrl(image.url)"
                             v-bind:data-image-id="image.image_id"
                             class="card-img-top"
                             alt="..."
-                    />
+                    >
+                    </div>
 
                     <!-- start each image card box -->
                     <div class="card-body">
